@@ -14,7 +14,7 @@ class ActivityResource extends JsonResource
      */
     public function toArray($request)
     {
-        //dump($request->path());
+        //dump($this);
         return [
             "id" => $this->id,
             "title" => $this->title,
@@ -23,14 +23,15 @@ class ActivityResource extends JsonResource
 
             //($request->path() !== 'api/login' && $request->path() !== 'api/register' && substr($request->path(), 0, 12) !== 'api/complete' && $request->path() !== 'api/lessons')
 
-            $this->mergeWhen(($request->path() === 'api/activities'), [
+            $this->mergeWhen(($request->path() === 'api/data'), [
                 "image" => $this->image,
                 "rules" => $this->rules,
                 "description" => $this->description,
                 "duration" => $this->duration,
                 "type" => new TypeResource($this->type),
-                "associated_lessons" => LessonResource::collection($this->lessons)
-            ]),
+                "associated_lessons" => $this->lessons,
+                ],
+            ),
         ];
 
     }

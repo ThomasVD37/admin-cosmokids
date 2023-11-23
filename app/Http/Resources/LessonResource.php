@@ -14,17 +14,19 @@ class LessonResource extends JsonResource
      */
     public function toArray($request)
     {
+        //dump($request);
         return [
             "id" => $this->id,
             "title" => $this->title,
             "slug" => $this->slug,
 
             // ($request->path() !== 'api/login' && $request->path() !== 'api/register' && substr($request->path(), 0, 12) !== 'api/complete' && $request->path() !== 'api/activities')
-            $this->mergeWhen(($request->path() === 'api/lessons'), [
+            $this->mergeWhen(($request->path() === 'api/data'), [
                 "image" => $this->image,
                 "content" => $this->content,
-                "associated_activities" => ActivityResource::collection($this->activities)
-            ]),
+                "associated_activities" => $this->activities,
+                ],
+            ),
         ];
     }
 }
