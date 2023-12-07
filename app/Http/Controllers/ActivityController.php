@@ -61,9 +61,6 @@ class ActivityController extends Controller
             return response()->json("activity not found", 404);
         }
 
-        //$activity->lessons;
-
-
         return response()->json($activity->load('type', 'lessons'), 200);
     }
 

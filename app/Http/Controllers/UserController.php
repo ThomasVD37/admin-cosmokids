@@ -38,73 +38,7 @@ class UserController extends Controller
      */
     public function create()
     {
-    }
-
-
-    /**
-     * Display a listing of the resource found by the user request.
-     * NO LONGER USED
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $foundActivities = DB::table('activities')
-            ->where('title', 'like', '%' . $request->userInput . '%')->get();
-
-        $foundLessons = DB::table('lessons')
-            ->where('title', 'like', '%' . $request->userInput . '%')->get();
-
-        $searchResult = [];
-
-        foreach ($foundActivities as $activity) {
-            $searchResult[] = [
-                "Activity" => $activity,
-            ];
-        }
-
-        foreach ($foundLessons as $lesson) {
-            $searchResult[] = [
-                "lesson" => $lesson,
-            ];
-        }
-
-        //$searchResult = [...$foundActivities, ...$foundLessons];
-        $searchResult === [] && $searchResult = 'No result has been found';
-
-        return response()->json($searchResult, 200);
-    }
-
-
-    /**
-     * List the user's completed activities
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function listUserActivities(Request $request)
-    {
-        $user = $request->user();
-
-        // ***************************
-        // UNUSED FOR NOW
-        // ***************************
-
-        if (!$user) {
-            return response('User not found', 404);
-        }
-
-        $completedActivities = [];
-        foreach ($user->activities as $activity) {
-            $completedActivities[] = [
-                "id" => $activity->id,
-                "title" => $activity->title,
-                "slug" => $activity->slug,
-                "type" => $activity->type->name,
-            ];
-        }
-
-        return response()->json($completedActivities, 200);
+        //
     }
 
     /**
@@ -204,7 +138,6 @@ class UserController extends Controller
         //dump($user);
         $token = $user->createToken('auth_token')->plainTextToken;
 
-
         // Regenere la session, a priori besoin uniquement en back office
         // $request->session()->regenerate();
         // $user->load('activities', 'lessons')
@@ -221,6 +154,7 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+
         return response()->json('User disconnected', 200);
     }
 
@@ -247,8 +181,6 @@ class UserController extends Controller
             ],
             'profile_image' => 'nullable|string|max:128'
         ]);
-
-        //dump($validated);
 
         $user = User::create([
             'email' => $validated['email'],
@@ -396,7 +328,6 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * //@param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(UpdateUserRequest $request)

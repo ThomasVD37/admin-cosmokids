@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
@@ -17,11 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/lessons', [LessonController::class, 'index']);
-Route::get('/activities', [ActivityController::class, 'index']);
-Route::get('/types', [TypeController::class, 'index']);
-
-Route::post('/search', [UserController::class, 'search']);
+Route::get('/data', [DataController::class, 'index']);
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'store']);
@@ -41,13 +38,7 @@ Route::middleware('auth:sanctum')->get('/completeLesson/{id}', [UserController::
 
 // Routes qui ne servent pas pour le moment, or outdated
 
-//Route::get('/users', [UserController::class, 'index']);
-
 //Route::middleware('auth:sanctum')->get('/user/{userId}', [UserController::class, 'show']);
-
-// Route::middleware('auth:sanctum')->get('/users/completedActivities', [UserController::class, 'listUserActivities']);
-
-// Route::middleware('auth:sanctum')->get('/users/completedLessons', [UserController::class, 'listUserlessons']);
 
 // Route::get('/lessons/{slug}', [LessonController::class, 'show']);
 // Route::get('/activities/{slug}', [ActivityController::class, 'show']);
